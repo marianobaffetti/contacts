@@ -6,48 +6,68 @@ class ContactsList extends Component {
   constructor(props) {
     super(props);
     this.handleContactClick = this.handleContactClick.bind(this);
-
+    this.handleBackToContactsClick = this.handleBackToContactsClick.bind(this);
+    this.handleStarClick = this.handleStarClick.bind(this);
     this.state= {
       selectedContactId: null,
       contactsInfo: contactsInfo
     }
   }
 
-  handleContactClick(e, contact){
+  handleStarClick(e, contact){
+    let contacts = this.state.contactsInfo.slice();
+    const index = contacts.findIndex((c) => {
+      return c.id === this.state.selectedContactId;
+    },this);
+    contacts[index].isFavorite = !contacts[index].isFavorite;
     this.setState({
-      selectedContactId: contact.props.id
-    })
+      contactsInfo: contacts
+    });
   }
 
-  getList() {
-    let favouriteContacts = [];
-    let otherContacts = [];
+  handleContactClick(e, contact){
+    this.setState({
+      selectedContactId: contact.props.info.id
+    });
+  }
 
-    this.state.contactsInfo.map((c) =>{
+  handleBackToContactsClick(e, backButton) {
+    this.setState({
+      selectedContactId: null
+    });
+  }
+
+  getListView() {
+    const contactsInfo = this.state.contactsInfo.slice();
+    contactsInfo.sort((a, b) => {
+      return (a.name > b.name ? 1 : a.name < b.name ? -1 : 0);
+    }); 
+
+    const favouriteContacts = [];
+    const otherContacts = [];
+    contactsInfo.map((info) =>{
       const contact = (
       <Contact 
-        id = {c.id}
-        key= {c.id}
-        name={c.name}
-        smallImageURL = {c.smallImageURL}
-        companyName = {c.companyName}
-        handleClick = {this.handleContactClick}
+        info = {info}
+        handleContactClick = {this.handleContactClick}
+        key = {info.id}
       />);
-      c.isFavorite ? favouriteContacts.push(contact) : otherContacts.push(contact);
+      info.isFavorite ? favouriteContacts.push(contact) : otherContacts.push(contact);
     });
+
     return (
       <div className ="panel">
-        <h3 class="panel-heading">
+        <h3 className="panel-heading is-size-5 has-text-centered">
           Contacts
         </h3>
-        <div className="panel">
-          <p class="panel-heading">
+        <div className="panel is-marginless">
+          <p className="panel-heading is-size-6">
             Favourites contacts
           </p>
           {favouriteContacts}
         </div>
         <div className="panel">
-          <p class="panel-heading">
+          <p className="panel-heading is-size-6">
             Other contacts
           </p>
           {otherContacts}
@@ -56,24 +76,27 @@ class ContactsList extends Component {
     );
   }
 
-  getDetail(){
-    const contact = contactsInfo.find((c) => {
+  getDetailView(){
+    const contactInfo = this.state.contactsInfo.find((c) => {
       return c.id == this.state.selectedContactId;
     },this);
-    var pepe = contact;
     return(
-      <ContactDetail contact={contact}/>
+      <ContactDetail 
+        contactInfo={contactInfo} 
+        handleBackToContactsClick = {this.handleBackToContactsClick}
+        handleStarClick = {this.handleStarClick}
+      />
     );
   }
 
   render() {
     if (this.state.selectedContactId === null) {
       return(
-        this.getList()
+        this.getListView()
       );
     } else {
       return(
-        this.getDetail()
+        this.getDetailView()
       );
     }
   }

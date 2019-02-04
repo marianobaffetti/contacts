@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import star from './img/star.png';
 import 'bulma/css/bulma.css'
+import star from './img/FavoriteStarTrue/Favorite — True.png';
 
 class Contact extends Component {
   constructor(props){
@@ -9,48 +9,30 @@ class Contact extends Component {
   }
 
   onContactClick(e) {
-    this.props.handleClick(e,this);
+    this.props.handleContactClick(e,this);
   }
   render() {
+    const info = this.props.info;
     return (
-      <div className="box" onClick= {this.onContactClick} value= {this.props.id}>
+      <div className="box is-marginless" onClick= {this.onContactClick} value= {info.id}>
         <article className="media">
           <div className="media-left">
             <figure className="image is-64x64">
-              <img src={this.props.smallImageURL} />
+              <img src={info.smallImageURL} alt=" "/>
             </figure>
           </div>
+          {info.isFavorite && <img src= {star} alt= " "/>}
           <div className="media-content">
-            <div className="content" >
+            <div className="content">
               <p>
-                <strong>{this.props.name}</strong>
+                <strong> {info.name}</strong>
                 <br />
-                {this.props.companyName}
+                {info.companyName}
             </p>
             </div>
-            <nav className="level is-mobile">
-              <div className="level-left">
-                <a className="level-item" aria-label="reply">
-                  <span className="icon is-small">
-                    <i className="fas fa-reply" aria-hidden="true"></i>
-                  </span>
-                </a>
-                <a className="level-item" aria-label="retweet">
-                  <span className="icon is-small">
-                    <i className="fas fa-retweet" aria-hidden="true"></i>
-                  </span>
-                </a>
-                <a className="level-item" aria-label="like">
-                  <span className="icon is-small">
-                    <i className="fas fa-heart" aria-hidden="true"></i>
-                  </span>
-                </a>
-              </div>
-            </nav>
           </div>
         </article>
       </div>
-     
     );
   }
 }
