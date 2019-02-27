@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import 'bulma/css/bulma.css'
-import star from './img/FavoriteStarTrue/Favorite — True.png';
+import star from '../img/FavoriteStarTrue/Favorite — True.png';
 
 class Contact extends Component {
   constructor(props){

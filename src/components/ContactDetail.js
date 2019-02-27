@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import trueStar from './img/FavoriteStarTrue/Favorite — True.png';
-import falseStar from './img/FavoriteStarFalse/Favorite — False.png';
+import trueStar from '../img/FavoriteStarTrue/Favorite — True.png';
+import falseStar from '../img/FavoriteStarFalse/Favorite — False.png';
 
 import 'bulma/css/bulma.css'
 
