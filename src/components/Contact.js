@@ -18,10 +18,10 @@ class Contact extends Component {
         <article className="media">
           <div className="media-left">
             <figure className="image is-64x64">
-              <img src={info.smallImageURL} alt=" "/>
+              <img src={info.smallImageURL} alt={info.name}/>
             </figure>
           </div>
-          {info.isFavorite && <img src= {star} alt= " "/>}
+          {info.isFavorite && <img src= {star} alt={info.name}/>}
           <div className="media-content">
             <div className="content">
               <p>

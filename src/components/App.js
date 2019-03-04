@@ -1,15 +1,10 @@
 import React, { Component } from 'react';
 import ContactsList from './ContactsList';
-import contactsMock from '../apiMock';
 import { connect } from 'react-redux';
-import fetchData from '../actions/fetchData'
+import { fetchData } from '../actions/fetchData'
 class App extends Component {
   constructor(props){
     super(props);
-    // this.state = {
-    //   // contactsInfo : contactsMock,
-    //   loading: true
-    // }
   }
 
   render() {
@@ -24,32 +19,26 @@ class App extends Component {
   }
 
   componentWillMount() {
-    this.props.fetch();
+    fetch('http://s3.amazonaws.com/technical-challenge/v3/contacts.json')  
+       .then(response => response.json())
+         .then(contacts =>{
+          this.props.fetch(contacts);
+     })
   }
 }
   
-  let mapStateToProps = (state) => {
-    return {
-      contacts: state.contacts,
-      loading: state.loading
+const mapStateToProps = (state) => {
+  return {
+    contacts: state.contacts,
+    loading: state.loading
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    fetch: (contacts) => {
+      dispatch(fetchData(contacts));
     }
   }
-  
-  let mapDispatchToProps = (dispatch) => {
-    return {
-      fetch: () => {
-        dispatch(fetchData());
-      }
-    }
-  }
-
-  // componentWillMount(){
-    //    fetch('http://s3.amazonaws.com/technical-challenge/v3/contacts.json')  
-    //    .then(response => response.json())
-    //      .then(contacts =>{
-  //          this.setState({ contactsInfo: contacts, loading: false }) ;
-  //    })
-  //  }
-
+}
 export default connect(mapStateToProps, mapDispatchToProps)(App);
-// export default App;

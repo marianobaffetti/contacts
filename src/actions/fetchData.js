@@ -1,6 +1,6 @@
-function fetchData() {
+export const fetchData = (contacts) => {
   return {
     type: 'FETCH',
+    payload: contacts
   }
 }
-export default fetchData
